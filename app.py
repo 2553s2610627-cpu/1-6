@@ -1,3 +1,3 @@
 import streamlit as st
-st.title( ' 나는짱이다 ')
-st.write( '바이브코딩 재미있다' )
+st.title( ' 공부는 없어져라 ')
+st.write( '공부하기 싫다' )
