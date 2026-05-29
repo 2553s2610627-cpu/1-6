@@ -1,58 +1,65 @@
 import streamlit as st
-from openai import OpenAI
+import random
 
-# OpenAI 연결
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+st.title("💘 연애 코치 앱")
 
-# 제목
-st.title("💘 AI 연애 코치")
-
-st.write("연애 고민을 입력하면 AI가 코칭해줍니다.")
+st.write("연애 고민을 입력하면 조언을 해드립니다.")
 
 # 고민 입력
-user_input = st.text_area(
-    "연애 고민 입력",
-    height=200
-)
+user_input = st.text_area("연애 고민 입력")
+
+# 답변 리스트
+answers = [
+    """
+    ❤️ 상대방은 아직 관심이 있습니다.
+
+    추천 행동:
+    너무 조급해하지 말고 여유 있게 대화하세요.
+
+    추천 카톡:
+    "오늘 하루 어땠어? 😊"
+    """,
+
+    """
+    💡 지금은 밀어붙이기보다 분위기를 보는 게 중요합니다.
+
+    추천 행동:
+    연락 텀을 조금 조절해보세요.
+
+    추천 카톡:
+    "요즘 바쁜가 보네!"
+    """,
+
+    """
+    🌸 상대방은 편안함을 느끼고 있습니다.
+
+    추천 행동:
+    가벼운 약속을 잡아보세요.
+
+    추천 카톡:
+    "주말에 맛있는 거 먹으러 갈래?"
+    """,
+
+    """
+    🔥 호감 가능성이 높습니다.
+
+    추천 행동:
+    자신감 있게 표현해보세요.
+
+    추천 카톡:
+    "너랑 있으면 재밌어 😊"
+    """
+]
 
 # 버튼
 if st.button("코칭 받기"):
 
-    # 입력 체크
     if user_input == "":
         st.warning("고민을 입력해주세요.")
+
     else:
+        result = random.choice(answers)
 
-        with st.spinner("AI가 분석중입니다..."):
+        st.success("분석 완료!")
 
-            prompt = f"""
-            너는 유명한 연애 코치다.
-
-            사용자의 고민을 보고:
-            1. 상대 심리
-            2. 현재 상황
-            3. 추천 행동
-            4. 추천 카톡 답장
-
-            을 친절하게 알려줘.
-
-            사용자 고민:
-            {user_input}
-            """
-
-            # GPT 호출
-            response = client.chat.completions.create(
-                model="gpt-5",
-                messages=[
-                    {
-                        "role": "user",
-                        "content": prompt
-                    }
-                ]
-            )
-
-            result = response.choices[0].message.content
-
-            st.success("분석 완료!")
-
-            st.write(result)
+        st.write(result)
